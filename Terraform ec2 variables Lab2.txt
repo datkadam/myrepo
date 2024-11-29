@@ -1,0 +1,53 @@
+$$ Terraform Lab2 Provision AWS ec2 instances using vaiables $$
+
+resource.tf (file1)
+###########
+
+provider "aws" {
+  region = var.region
+
+}
+resource "aws_instance" "dkinstance" {
+  count         = var.instance_count
+  ami           = var.ami
+  instance_type = var.instance_type
+
+
+  tags = {
+    Name = "Prod-Server"
+  }
+
+}
+
+
+
+variable.tf (file2)
+############
+#Argument ka value datatype declare karte hai
+
+variable "region" {
+  type = string
+ }
+
+variable "ami" {
+  type = string
+}
+
+variable "instance_type" {
+  type = string
+}
+
+variable "instance_count" {
+  description = "Number of instances to create"
+  type        = number
+  default     = 1
+}
+
+
+terrafform.tfvars (file3)
+#################
+#Resource ka actual argument ka value specify karana hota hai is file me
+region         = "ap-south-1"
+ami            = "ami-03753afda9b8ba740"
+instance_type  = "t2.micro"
+instance_count = "4"
